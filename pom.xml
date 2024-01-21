@@ -12,7 +12,7 @@
 	<artifactId>madbeats</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>madbeats</name>
-	<description>Backend for MadBeats plartform</description>
+	<description>Backend for MadBeats platform</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
