@@ -1,61 +1,48 @@
 package com.madbeats.model;
 
-public class Event {
+public class Event extends Spot {
 	
-	private int id;
-	private String name;
-	private String spot;
+	private int idEvent;
+	private String nameEvent;
 	private String artist;
-	private String adress;
 	private String date;
 	private String schedule;
 	private double price;
-	private int minimunAge;
+	private int minimumAge;
 	private String musicCategory;
-	private String uRL;
+	private String urlEvent;
 	private String dressCode;
-	
-	public Event(int id, String name, String spot, String artist, String adress, String date, String schedule,
-			double price, int minimunAge, String musicCategory, String uRL, String dressCode) {
-		
-		super();
-		
-		this.id = id;
-		this.name = name;
-		this.spot = spot;
+
+	public Event(int idEvent, int idSpot, String nameEvent, String artist, String date,String schedule, double price, int minimumAge, 
+			String musicCategory,String urlEvent, String dressCode, String nameSpot,String addressSpot, String urlSpot){
+
+		super(idSpot, nameSpot, addressSpot, urlSpot);
+		this.idEvent = idEvent;
+		this.nameEvent = nameEvent;
 		this.artist = artist;
-		this.adress = adress;
 		this.date = date;
 		this.schedule = schedule;
 		this.price = price;
-		this.minimunAge = minimunAge;
+		this.minimumAge = minimumAge;
 		this.musicCategory = musicCategory;
-		this.uRL = uRL;
+		this.urlEvent = urlEvent;
 		this.dressCode = dressCode;
 	}
 
-	public int getId() {
-		return id;
+	public int getIdEvent() {
+		return idEvent;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdEvent(int idEvent) {
+		this.idEvent = idEvent;
 	}
 
-	public String getName() {
-		return name;
+	public String getNameEvent() {
+		return nameEvent;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSpot() {
-		return spot;
-	}
-
-	public void setSpot(String spot) {
-		this.spot = spot;
+	public void setNameEvent(String nameEvent) {
+		this.nameEvent = nameEvent;
 	}
 
 	public String getArtist() {
@@ -64,14 +51,6 @@ public class Event {
 
 	public void setArtist(String artist) {
 		this.artist = artist;
-	}
-
-	public String getAdress() {
-		return adress;
-	}
-
-	public void setAdress(String adress) {
-		this.adress = adress;
 	}
 
 	public String getDate() {
@@ -98,12 +77,12 @@ public class Event {
 		this.price = price;
 	}
 
-	public int getMinimunAge() {
-		return minimunAge;
+	public int getMinimumAge() {
+		return minimumAge;
 	}
 
-	public void setMinimunAge(int minimunAge) {
-		this.minimunAge = minimunAge;
+	public void setMinimumAge(int minimumAge) {
+		this.minimumAge = minimumAge;
 	}
 
 	public String getMusicCategory() {
@@ -114,12 +93,12 @@ public class Event {
 		this.musicCategory = musicCategory;
 	}
 
-	public String getuRL() {
-		return uRL;
+	public String getUrlEvent() {
+		return urlEvent;
 	}
 
-	public void setuRL(String uRL) {
-		this.uRL = uRL;
+	public void setUrlEvent(String urlEvent) {
+		this.urlEvent = urlEvent;
 	}
 
 	public String getDressCode() {
@@ -129,5 +108,4 @@ public class Event {
 	public void setDressCode(String dressCode) {
 		this.dressCode = dressCode;
 	}
-	
 }

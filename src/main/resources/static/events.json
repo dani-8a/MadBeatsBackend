@@ -1,0 +1,87 @@
+[
+  {
+    "idEvent": 1,
+    "nameEvent": "Mondo Disko",
+    "nameSpot": "Sala Coco",
+    "adressSpot": "Calle Alcala 20, Madrid",
+    "artist": "Solomun",
+    "date": "01/03/2024",
+    "schedule": "23:45 - 06:00",
+    "price": 25.00,
+    "minimumAge": 18,
+    "musicCategory": "Electronic",
+    "urlEvent": "www.mondodisko.com",
+    "dressCode": "Casual"
+  },
+  {
+    "idEvent": 2,
+    "nameEvent": "Mermelada",
+    "nameSpot": "Club Malasaña",
+    "adressSpot": "Calle San Vicente Ferrer 23, Madrid",
+    "artist": "Luca Lozano",
+    "date": "05/03/2024",
+    "schedule": "23:45 - 06:00",
+    "price": 25.00,
+    "minimumAge": 18,
+    "musicCategory": "Electronic",
+    "urlEvent": "www.clubmalasaña.com",
+    "dressCode": "Casual"
+  },
+  {
+    "idEvent": 3,
+    "nameEvent": "Ocho y medio Club",
+    "nameSpot": "Sala But",
+    "adressSpot": "Calle Barcelo 11, Madrid",
+    "artist": "Smart",
+    "date": "17/03/2024",
+    "schedule": "23:45 - 06:00",
+    "price": 20.00,
+    "minimumAge": 18,
+    "musicCategory": "Rock",
+    "urlEvent": "www.ochoymedioclub.com",
+    "dressCode": "Casual"
+  },
+  {
+    "idEvent": 4,
+    "nameEvent": "Swag City",
+    "nameSpot": "Shoko",
+    "adressSpot": "Calle Toledo 86, Madrid",
+    "artist": "Smart",
+    "date": "20/03/2024",
+    "schedule": "23:45 - 06:00",
+    "price": 20.00,
+    "minimumAge": 18,
+    "musicCategory": "Latino",
+    "urlEvent": "www.shokomadrid.com",
+    "dressCode": "Casual"
+  },
+  {
+    "idEvent": 5,
+    "nameEvent": "Noches Teatro Kapital",
+    "nameSpot": "Teatro Kapital",
+    "adressSpot": "Calle Atocha 86, Madrid",
+    "artist": "DJ's residentes",
+    "date": "10/03/2024",
+    "schedule": "23:45 - 06:00",
+    "price": 25.00,
+    "minimumAge": 18,
+    "musicCategory": "Comercial",
+    "urlEvent": "www.teatrokapital.com",
+    "dressCode": "Casual"
+  },
+   {
+    "idEvent": 6,
+    "nameEvent": "Noches Teatro Eslava",
+    "nameSpot": "Teatro Eslava",
+    "adressSpot": "Calle Arenal 11, Madrid",
+    "artist": "DJ's residentes",
+    "date": "12/03/2024",
+    "schedule": "23:45 - 06:00",
+    "price": 20.00,
+    "minimumAge": 18,
+    "musicCategory": "Comercial",
+    "urlEvent": "www.teatroeslava.com",
+    "dressCode": "Casual"
+  }
+
+]
