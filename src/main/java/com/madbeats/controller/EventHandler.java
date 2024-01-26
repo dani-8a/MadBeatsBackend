@@ -18,11 +18,11 @@ public class EventHandler {
 
     public void addEvent() {
     	
-        Event event1 = new Event(1, 101, "Concierto", "Artista1", "2024-01-30", "19:00", 50.0, 18, "Música", "http://example.com", "Casual",
-                "Lugar1", "Dirección1", "http://spot1.com");
+        Event event1 = new Event(01, 01, "Mondo Disko", "Solomun", "01/03/2024", "23:45-06:00", 25.0, 18, "Electronic", "www.mondodisko.com", "Casual",
+                "Sala Coco", "Calle Alcalá 20, Madrid", "wwww.salacoco.com");
 
-        Event event2 = new Event(2, 102, "Festival", "Artista2", "2024-02-15", "15:30", 75.0, 21, "Festival", "http://example.com/festival", "Casual",
-                "Lugar2", "Dirección2", "http://spot2.com");
+        Event event2 = new Event(02, 02, "Mermelada", "Luca Lozano", "05/03/2024", "23:45-06:00", 20.0, 18, "Electronic", "clubmalasaña.com", "Casual",
+                "Club Malasaña", "Calle San Vicente Ferrer 23, Madrid", "clubmalasaña.com");
 
         eventMap.put("evento1", event1);
         eventMap.put("evento2", event2);
@@ -32,7 +32,7 @@ public class EventHandler {
     	
         Event event = eventMap.get(key);
         if (event != null) {
-            System.out.println("Evento encontrado: " + event);
+            System.out.println("Evento encontrado: " + event.toString());
         } else {
             System.out.println("Evento no encontrado con la clave: " + key);
         }
