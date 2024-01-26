@@ -1,7 +1,7 @@
 package com.madbeats.model;
 
 public class Event extends Spot {
-	
+
 	private int idEvent;
 	private String nameEvent;
 	private String artist;
@@ -107,5 +107,21 @@ public class Event extends Spot {
 
 	public void setDressCode(String dressCode) {
 		this.dressCode = dressCode;
+	}
+
+	public String toString() {
+
+		return "Evento{" +
+				"idEvent=" + idEvent +
+				", nameEvent='" + nameEvent + '\'' +
+				", artist='" + artist + '\'' +
+				", date='" + date + '\'' +
+				", schedule='" + schedule + '\'' +
+				", price=" + price +
+				", minimumAge=" + minimumAge +
+				", musicCategory='" + musicCategory + '\'' +
+				", urlEvent='" + urlEvent + '\'' +
+				", dressCode='" + dressCode + '\'' +
+				"} " + super.toString();
 	}
 }

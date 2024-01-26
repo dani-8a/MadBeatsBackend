@@ -1,14 +1,14 @@
 package com.madbeats.model;
 
 public class Spot {
-	
+
 	private int idSpot;
 	private String nameSpot;
 	private String addressSpot;
 	private String urlSpot;
 
 	public Spot(int idSpot, String nameSpot, String addressSpot, String urlSpot) {
-		
+
 		this.idSpot = idSpot;
 		this.nameSpot = nameSpot;
 		this.addressSpot = addressSpot;
@@ -45,5 +45,15 @@ public class Spot {
 
 	public void setUrlSpot(String urlSpot) {
 		this.urlSpot = urlSpot;
+	}
+
+	public String toString() {
+		
+		return "Spot{" +
+				"idSpot=" + idSpot +
+				", nameSpot='" + nameSpot + '\'' +
+				", addressSpot='" + addressSpot + '\'' +
+				", urlSpot='" + urlSpot + '\'' +
+				'}';
 	}
 }
