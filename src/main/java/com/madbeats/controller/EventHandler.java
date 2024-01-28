@@ -8,14 +8,6 @@ public class EventHandler {
 
     private Map<String, Event> eventMap = new HashMap<>();
 
-    public static void main(String[] args) {
-    	
-        EventHandler eventHandler = new EventHandler();
-        eventHandler.addEvent();
-        eventHandler.readEvent("evento1");
-        eventHandler.readEvent("evento2");
-    }
-
     public void addEvent() {
     	
         Event event1 = new Event(01, 01, "Mondo Disko", "Solomun", "01/03/2024", "23:45-06:00", 25.0, 18, "Electronic", "www.mondodisko.com", "Casual",
