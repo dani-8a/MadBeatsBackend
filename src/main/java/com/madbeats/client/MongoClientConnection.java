@@ -1,5 +1,5 @@
-package com.madbeats.controller;
-
+package com.madbeats.client;
+/**
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
@@ -35,3 +35,4 @@ public class MongoClientConnection {
         }
     }
 }
+**/

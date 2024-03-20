@@ -1,16 +1,31 @@
 package com.madbeats.model;
 
+//import org.springframework.data.annotation.Id;
+//import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Field;
+
+//@Document
 public class Event extends Spot {
 
+	//@Id
 	private int idEvent;
+	//@Field
 	private String nameEvent;
+	//@Field
 	private String artist;
+	//@Field
 	private String date;
+	//@Field
 	private String schedule;
+	//@Field
 	private double price;
+	//@Field
 	private int minimumAge;
+	//@Field
 	private String musicCategory;
+	//@Field
 	private String urlEvent;
+	//@Field
 	private String dressCode;
 
 	public Event(int idEvent, int idSpot, String nameEvent, String artist, String date,String schedule, double price, int minimumAge, 

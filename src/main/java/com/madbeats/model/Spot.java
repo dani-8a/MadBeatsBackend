@@ -1,10 +1,19 @@
 package com.madbeats.model;
 
-public class Spot {
+//import org.springframework.data.annotation.Id;
+//import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Field;
 
+//@Document
+public class Spot {
+	
+	//@Id
 	private int idSpot;
+	//@Field
 	private String nameSpot;
+	//@Field
 	private String addressSpot;
+	//@Field
 	private String urlSpot;
 
 	public Spot(int idSpot, String nameSpot, String addressSpot, String urlSpot) {
