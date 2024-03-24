@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Document(collection = "Events")
-//@JsonIgnoreProperties("spot")
 @Getter
 @Setter
 @NoArgsConstructor
