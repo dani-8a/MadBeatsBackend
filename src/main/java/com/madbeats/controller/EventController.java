@@ -37,6 +37,7 @@ public class EventController {
     public void createEvent(@RequestBody Event event) {
         try {
         	System.out.println("JSON recibido en el backend: " + event.toString());
+        	//String idSpot = event.get
             // Guardar el evento
             Event savedEvent = eventRepository.save(event);
             System.out.println("Event saved successfully.");
