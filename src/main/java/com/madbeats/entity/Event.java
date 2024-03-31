@@ -1,6 +1,7 @@
 package com.madbeats.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -29,7 +30,8 @@ public class Event {
     private String musicCategory;
     private String urlEvent;
     private String dressCode;
-    @JsonBackReference
+    @DBRef
+    //@JsonBackReference
     private Spot spot;
 
     public Event(String idEvent, String nameEvent, String artist, String date, String schedule, double price, int minimumAge,

@@ -3,8 +3,11 @@ package com.madbeats.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,134 +36,120 @@ public class EventController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+        List<Event> events = eventRepository.findAll();
+
+        System.out.println("Total events found: " + events.size());
+        for (Event event : events) {
+            System.out.println("Event ID: " + event.getIdEvent());
+            System.out.println("Event Name: " + event.getNameEvent());
+            // Verificar si el evento tiene un spot asociado
+            if (event.getSpot() != null) {
+                System.out.println("Spot ID: " + event.getSpot().getIdSpot());
+                System.out.println("Spot Name: " + event.getSpot().getNameSpot());
+                System.out.println("Spot Address: " + event.getSpot().getAddressSpot());
+            } else {
+                System.out.println("No Spot associated with Event");
+            }
+        }
+
+        return events;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void createEvent(@RequestBody Event event) {
-        try {
-            System.out.println("JSON recibido en el backend: " + event.toString());
-            Event savedEvent = eventRepository.save(event);
-            System.out.println("Event saved successfully.");
 
-            String spotId = savedEvent.getSpot().getIdSpot();
-            Optional<Spot> optionalSpot = spotRepository.findById(spotId);
-            if (optionalSpot.isPresent()) {
-                Spot spot = optionalSpot.get();
-                spot.getEvents().add(savedEvent);
-                spotRepository.save(spot);
-                System.out.println("Event added to the spot successfully.");
-            } else {
-                System.err.println("Spot not found for the event.");
-            }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
+        try {
+            System.out.println("JSON recibido en el backend para crear evento: " + event.toString());
+            
+            Event savedEvent = eventRepository.save(event);
+            System.out.println("Evento guardado correctamente.");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Evento guardado correctamente.");
         } catch (Exception e) {
-            System.err.println("Error occurred while saving event:");
+            System.err.println("Error al guardar el evento:");
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el evento.");
         }
     }
     
     @PutMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateEvent(@PathVariable String eventId, @RequestBody Event updatedEvent) {
-        // Buscar el evento en la base de datos utilizando el ID
-        Event event = eventRepository.findById(eventId).orElse(null);
+    public ResponseEntity<String> updateEvent(@PathVariable String eventId, @RequestBody Event updatedEvent) {
+        try {
+            // Buscar el evento en la base de datos utilizando el ID
+            Event event = eventRepository.findById(eventId).orElse(null);
 
-        // Verificar si el evento existe
-        if (event != null) {
-            // Actualizar solo los campos proporcionados en la solicitud
-        	if (updatedEvent.getIdEvent() != null) {
-                event.setIdEvent(updatedEvent.getIdEvent());
-            }
-            if (updatedEvent.getNameEvent() != null) {
-                event.setNameEvent(updatedEvent.getNameEvent());
-            }
-            if (updatedEvent.getArtist() != null) {
-                event.setArtist(updatedEvent.getArtist());
-            }
-            if (updatedEvent.getDate() != null) {
-                event.setDate(updatedEvent.getDate());
-            }
-            if (updatedEvent.getSchedule() != null) {
-                event.setSchedule(updatedEvent.getSchedule());
-            }
-            if (updatedEvent.getPrice() != -1) {
-                event.setPrice(updatedEvent.getPrice());
-            }
-            if (updatedEvent.getMinimumAge() != -1) {
-                event.setMinimumAge(updatedEvent.getMinimumAge());
-            }
-            if (updatedEvent.getMusicCategory() != null) {
-                event.setMusicCategory(updatedEvent.getMusicCategory());
-            }
-            if (updatedEvent.getUrlEvent() != null) {
-                event.setUrlEvent(updatedEvent.getUrlEvent());
-            }
-            if (updatedEvent.getDressCode() != null) {
-                event.setDressCode(updatedEvent.getDressCode());
-            }
-
-            // Guardar el evento actualizado en la base de datos
-            eventRepository.save(event);
-            System.out.println("Event updated successfully.");
-
-            // Obtener el ID del spot asociado al evento
-            String spotId = event.getSpot().getIdSpot();
-
-            // Buscar el spot en la base de datos utilizando el ID
-            Spot spot = spotRepository.findById(spotId).orElse(null);
-
-            // Verificar si se encontró el spot
-            if (spot != null) {
-                // Actualizar el evento en el ArrayList de eventos del spot
-                List<Event> events = spot.getEvents();
-                for (int i = 0; i < events.size(); i++) {
-                    if (events.get(i).getIdEvent().equals(eventId)) {
-                        events.set(i, event);
-                        spot.setEvents(events);
-                        spotRepository.save(spot);
-                        System.out.println("Event updated in the spot successfully.");
-                        break;
-                    }
+            // Verificar si el evento existe
+            if (event != null) {
+                // Actualizar solo los campos proporcionados en la solicitud
+                if (updatedEvent.getNameEvent() != null) {
+                    event.setNameEvent(updatedEvent.getNameEvent());
                 }
+                if (updatedEvent.getArtist() != null) {
+                    event.setArtist(updatedEvent.getArtist());
+                }
+                if (updatedEvent.getDate() != null) {
+                    event.setDate(updatedEvent.getDate());
+                }
+                if (updatedEvent.getSchedule() != null) {
+                    event.setSchedule(updatedEvent.getSchedule());
+                }
+                if (updatedEvent.getPrice() != 0) {
+                    event.setPrice(updatedEvent.getPrice());
+                }
+                if (updatedEvent.getMinimumAge() != 0) {
+                    event.setMinimumAge(updatedEvent.getMinimumAge());
+                }
+                if (updatedEvent.getMusicCategory() != null) {
+                    event.setMusicCategory(updatedEvent.getMusicCategory());
+                }
+                if (updatedEvent.getUrlEvent() != null) {
+                    event.setUrlEvent(updatedEvent.getUrlEvent());
+                }
+                if (updatedEvent.getDressCode() != null) {
+                    event.setDressCode(updatedEvent.getDressCode());
+                }
+
+                // Guardar el evento actualizado en la base de datos
+                eventRepository.save(event);
+                System.out.println("Event updated successfully.");
+
+                return ResponseEntity.ok().body("Event updated successfully.");
             } else {
-                System.err.println("Spot not found for the event.");
+                System.err.println("Event not found.");
+                return ResponseEntity.notFound().build();
             }
-        } else {
-            System.err.println("Event not found.");
+        } catch (Exception e) {
+            System.err.println("Error updating event:");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating event.");
         }
     }
+
     
     @DeleteMapping("/{idEvent}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEvent(@PathVariable String idEvent) {
-        // Buscar el evento en la base de datos utilizando el ID
-        Event event = eventRepository.findById(idEvent).orElse(null);
+    public ResponseEntity<String> deleteEvent(@PathVariable String idEvent) {
+        try {
+            // Buscar el evento en la base de datos utilizando el ID
+            Event event = eventRepository.findById(idEvent).orElse(null);
 
-        // Verificar si el evento existe
-        if (event != null) {
-            // Eliminar el evento de la base de datos
-            eventRepository.delete(event);
+            // Verificar si el evento existe
+            if (event != null) {
+                // Eliminar el evento de la base de datos
+                eventRepository.delete(event);
 
-            // Obtener el ID del spot asociado al evento
-            String spotId = event.getSpot().getIdSpot();
-
-            // Buscar el spot en la base de datos utilizando el ID
-            Spot spot = spotRepository.findById(spotId).orElse(null);
-
-            // Verificar si se encontró el spot
-            if (spot != null) {
-                // Eliminar el evento del listado de eventos en el spot
-                spot.getEvents().remove(event);
-                spotRepository.save(spot);
-                System.out.println("Event removed from the spot successfully.");
+                System.out.println("Event deleted successfully.");
+                return ResponseEntity.ok().body("Event deleted successfully.");
             } else {
-                System.err.println("Spot not found for the event.");
+                System.err.println("Event not found.");
+                return ResponseEntity.notFound().build();
             }
-
-            System.out.println("Event deleted successfully.");
-        } else {
-            System.err.println("Event not found.");
+        } catch (Exception e) {
+            System.err.println("Error deleting event:");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting event.");
         }
     }
+
 }

@@ -2,8 +2,11 @@ package com.madbeats.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.madbeats.entity.Event;
 import com.madbeats.entity.Spot;
 import com.madbeats.repository.SpotRepository;
 
@@ -33,25 +35,26 @@ public class SpotController {
         for (Spot spot : spots) {
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
-            System.out.println("Spot Address: " + spot.getAddressSpot());
         }
         return spots;
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void createSpot(@RequestBody Spot spot) {
-        System.out.println("Received spot creation request:");
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> createSpot(@Valid @RequestBody Spot spot) {
+        System.out.println("Solicitud de creación de lugar recibida:");
         System.out.println("ID: " + spot.getIdSpot());
-        System.out.println("Name: " + spot.getNameSpot());
-        System.out.println("Address: " + spot.getAddressSpot());
+        System.out.println("Nombre: " + spot.getNameSpot());
+        System.out.println("Dirección: " + spot.getAddressSpot());
 
         try {
             spotRepository.save(spot);
-            System.out.println("Spot saved successfully.");
+            System.out.println("Lugar guardado correctamente.");
+            return ResponseEntity.ok("Lugar creado exitosamente.");
         } catch (Exception e) {
-            System.err.println("Error occurred while saving spot:");
+            System.err.println("Error al guardar el lugar:");
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el lugar.");
         }
     }
     
@@ -98,7 +101,7 @@ public class SpotController {
             System.err.println("Spot not found.");
         }
     }
-
+/**
     @DeleteMapping("/{spotId}/events")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAllEventsInSpot(@PathVariable String spotId) {
@@ -115,7 +118,7 @@ public class SpotController {
             System.err.println("Spot not found.");
         }
     }
-    
+ 
     @DeleteMapping("/{spotId}/events/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSelectedEventInSpot(@PathVariable String spotId, @PathVariable String eventId) {
@@ -145,6 +148,6 @@ public class SpotController {
         } else {
             System.err.println("Spot not found.");
         }
-    }
+    }**/
 }
 

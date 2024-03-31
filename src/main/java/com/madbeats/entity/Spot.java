@@ -1,8 +1,5 @@
 package com.madbeats.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,9 +22,6 @@ public class Spot {
     private String idSpot;
     private String nameSpot;
     private String addressSpot;
-    @DBRef
-    @JsonManagedReference
-    private List<Event> events = new ArrayList<>();
 
     public Spot(String idSpot, String nameSpot, String addressSpot) {
         this.idSpot = idSpot;
@@ -59,17 +53,8 @@ public class Spot {
         this.addressSpot = addressSpot;
     }
 
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
 	@Override
 	public String toString() {
-		return "Spot [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + ", events="
-				+ events + "]";
+		return "Spot [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + "]";
 	}
 }
