@@ -20,16 +20,4 @@ public class GreetingController {
     public String sayHello(@RequestParam String name) { // http://localhost:8080/v1/hello?name=MadBeats
         return "Hello, " + name + "!";
     }
-/**
-	@GetMapping("/events")
-	public List<Event> getEvents(@RequestParam String musicCategory) { // http://localhost:8080/v1/events?musicCategory=Electronic
-	    List<Event> filteredEvents = new ArrayList<>();
-	    for (Event event : eventRepository.getEvents()) {
-	        if (event.getMusicCategory().equals(musicCategory)) {
-	            filteredEvents.add(event);
-	        }
-	    }
-	    return filteredEvents;
-	}
-**/
 }
