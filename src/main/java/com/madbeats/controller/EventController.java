@@ -1,7 +1,11 @@
 package com.madbeats.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -33,29 +37,6 @@ public class EventController {
     @Autowired
     private SpotRepository spotRepository;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Event> getAllEvents() {
-        List<Event> events = eventRepository.findAll();
-
-        System.out.println("Total events found: " + events.size());
-        for (Event event : events) {
-            System.out.println("Event ID: " + event.getIdEvent());
-            System.out.println("Event Name: " + event.getNameEvent());
-            // Verificar si el evento tiene un spot asociado
-            if (event.getSpot() != null) {
-                System.out.println("Spot ID: " + event.getSpot().getIdSpot());
-                System.out.println("Spot Name: " + event.getSpot().getNameSpot());
-                System.out.println("Spot Address: " + event.getSpot().getAddressSpot());
-            } else {
-                System.out.println("No Spot associated with Event");
-            }
-        }
-
-        return events;
-    }
-
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
@@ -72,6 +53,88 @@ public class EventController {
         }
     }
     
+    @PostMapping("/create-with-spot/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> createEventWithSpot(@PathVariable String id, @Valid @RequestBody Event event) {
+        // Verificar si el spot existe en la base de datos
+        Optional<Spot> optionalSpot = spotRepository.findById(id);
+        if (optionalSpot.isPresent()) {
+            Spot spot = optionalSpot.get();
+            
+            // Asignar el spot al evento
+            event.setSpot(spot);
+
+            try {
+                // Guardar el evento en la base de datos
+                eventRepository.save(event);
+
+                // Agregar el evento a la lista de eventos del spot
+                spot.getEventList().add(event);
+                spotRepository.save(spot);
+
+                // Imprimir información de depuración
+                System.out.println("Event created and associated with spot successfully.");
+                System.out.println("Name event: "+event.getNameEvent()+ ", associated with Spot: "+spot.getNameSpot());
+
+                return ResponseEntity.ok("Event created and associated with spot successfully.");
+            } catch (Exception e) {
+                System.err.println("Error creating event and associating with spot:");
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating event and associating with spot.");
+            }
+        } else {
+            // Si el spot no existe, devolver un mensaje de error
+            String errorMessage = "Spot ID: " + id + " doesn't exist in database.";
+            System.err.println(errorMessage);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+        }
+    }
+    
+    @GetMapping("/events-in-spots")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Event> getAllEventsInSpots() {
+        List<Event> allEventsInSpots = new ArrayList<>();
+
+        // Obtener todos los spots de la base de datos
+        List<Spot> allSpots = spotRepository.findAll();
+
+        // Iterar sobre cada spot y agregar sus eventos a la lista de eventos total
+        for (Spot spot : allSpots) {
+            if (spot.getEventList() != null) {
+                for (Event event : spot.getEventList()) {
+                    // Establecer el spot al que pertenece el evento
+                    event.setSpot(spot);
+                    // Agregar el evento a la lista de eventos
+                    allEventsInSpots.add(event);
+
+                    // Imprimir la información del evento y el spot al que pertenece
+                    System.out.println("Event Name: " + event.getNameEvent());
+                    System.out.println("Event Date: " + event.getDate());
+                    System.out.println("Spot Name: " + spot.getNameSpot());
+                    System.out.println("Spot Address: " + spot.getAddressSpot());
+                    System.out.println("----------------------------------------");
+                }
+            }
+        }
+
+        System.out.println("Total events in all spots: " + allEventsInSpots.size());
+        return allEventsInSpots;
+    }
+
+
+    
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Event> getAllEvents(){
+        List<Event> events = eventRepository.findAll();
+        System.out.println("Total events found: " + events.size());
+        for (Event event : events) {
+            System.out.println("Event ID: " + event.getIdEvent());
+            System.out.println("Event Name: " + event.getNameEvent());
+        }
+        return events;
+    }
+    
     @PutMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateEvent(@PathVariable String eventId, @RequestBody Event updatedEvent) {
@@ -85,8 +148,8 @@ public class EventController {
                 if (updatedEvent.getNameEvent() != null) {
                     event.setNameEvent(updatedEvent.getNameEvent());
                 }
-                if (updatedEvent.getArtist() != null) {
-                    event.setArtist(updatedEvent.getArtist());
+                if (updatedEvent.getArtists() != null) {
+                    event.setArtists(updatedEvent.getArtists());
                 }
                 if (updatedEvent.getDate() != null) {
                     event.setDate(updatedEvent.getDate());

@@ -21,6 +21,6 @@ public class ResetDataBase {
     public String resetDatabase() {
         eventRepository.deleteAll();
         spotRepository.deleteAll();
-        return "Base de datos reiniciada correctamente.";
+        return "Data base cleaned";
     }
 }

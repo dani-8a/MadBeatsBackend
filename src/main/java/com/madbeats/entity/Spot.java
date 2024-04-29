@@ -1,40 +1,38 @@
 package com.madbeats.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Document(collection = "Spots")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Spot {
 
     @Id
-    private String idSpot;
+    private String id;
     private String nameSpot;
     private String addressSpot;
+    private List <Event> eventList; 
 
-    public Spot(String idSpot, String nameSpot, String addressSpot) {
-        this.idSpot = idSpot;
-        this.nameSpot = nameSpot;
-        this.addressSpot = addressSpot;
+    public Spot(String id, String nameSpot, String addressSpot, List<Event> eventList) {
+		super();
+		this.id = id;
+		this.nameSpot = nameSpot;
+		this.addressSpot = addressSpot;
+		this.eventList = new ArrayList<>();
+	}
+
+	public Spot() {
+		this.eventList = new ArrayList<>();
+    }
+    
+    public String getId() {
+        return id;
     }
 
-    public String getIdSpot() {
-        return idSpot;
-    }
-
-    public void setIdSpot(String idSpot) {
-        this.idSpot = idSpot;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNameSpot() {
@@ -53,8 +51,18 @@ public class Spot {
         this.addressSpot = addressSpot;
     }
 
+	public List<Event> getEventList() {
+		return eventList;
+	}
+
+	public void setEventList(List<Event> eventList) {
+		this.eventList = eventList;
+	}
+
 	@Override
 	public String toString() {
-		return "Spot [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + "]";
+		return "Spot [id=" + id + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + ", eventList="
+				+ eventList + "]";
 	}
+
 }

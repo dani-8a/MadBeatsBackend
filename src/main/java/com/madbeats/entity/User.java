@@ -1,69 +1,95 @@
 package com.madbeats.entity;
-
-import java.util.ArrayList;
-import java.util.Set;
+/**
+import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Document(collection = "Users")
-public class User {
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@Document
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+public class User implements UserDetails{
 	
 	@Id
-	private String idUser;
-	@Indexed (unique = true, direction = IndexDirection.DESCENDING)
-	private String email;
+	private String id;
+	@NonNull
+	private String username;
+	@NonNull
 	private String password;
-	private boolean active;
-	/**
-	@DBRef
-	private Set <Role> roles;
-	private ArrayList <Event> favouritesEventList = new ArrayList<>();
-	private ArrayList <Spot> favouritesSpotList = new ArrayList<>();
-	**/
-	public String getIdUser() {
-		return idUser;
+
+	public User(String username, String password) {
+		// TODO Auto-generated constructor stub
 	}
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
+	
+	public User() {
+		
 	}
-	public String getEmail() {
-		return email;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return Collections.EMPTY_LIST;
 	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
+	@Override
 	public String getPassword() {
+		// TODO Auto-generated method stub
 		return password;
 	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-/**	public Set<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	public ArrayList<Event> getFavouritesEventList() {
-		return favouritesEventList;
-	}
-	public void setFavouritesEventList(ArrayList<Event> favouritesEventList) {
-		this.favouritesEventList = favouritesEventList;
-	}
-	public ArrayList<Spot> getFavouritesSpotList() {
-		return favouritesSpotList;
-	}
-	public void setFavouritesSpotList(ArrayList<Spot> favouritesSpotList) {
-		this.favouritesSpotList = favouritesSpotList;
-	}**/
-}
+
+}**/

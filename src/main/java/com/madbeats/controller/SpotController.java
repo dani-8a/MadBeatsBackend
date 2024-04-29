@@ -1,6 +1,7 @@
 package com.madbeats.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.madbeats.entity.Event;
 import com.madbeats.entity.Spot;
 import com.madbeats.repository.SpotRepository;
 
@@ -33,24 +35,38 @@ public class SpotController {
         List<Spot> spots = spotRepository.findAll();
         System.out.println("Total spots found: " + spots.size());
         for (Spot spot : spots) {
-            System.out.println("Spot ID: " + spot.getIdSpot());
+            System.out.println("Spot ID: " + spot.getId());
             System.out.println("Spot Name: " + spot.getNameSpot());
         }
         return spots;
     }
+    /**
+    @GetMapping("/spots/{spotId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Spot> getSpotDetails(@PathVariable String spotId) {
+        Optional<Spot> optionalSpot = spotRepository.findById(spotId);
+        if (optionalSpot.isPresent()) {
+            Spot spot = optionalSpot.get();
+            List<Event> events = spot.getEventList(); // Obtener la lista de eventos asociados al spot
+            spot.setEventList(events); // Establecer la lista de eventos en el spot
+            return ResponseEntity.ok(spot);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }**/
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createSpot(@Valid @RequestBody Spot spot) {
         System.out.println("Solicitud de creación de lugar recibida:");
-        System.out.println("ID: " + spot.getIdSpot());
+        System.out.println("ID: " + spot.getId());
         System.out.println("Nombre: " + spot.getNameSpot());
         System.out.println("Dirección: " + spot.getAddressSpot());
 
         try {
             spotRepository.save(spot);
-            System.out.println("Lugar guardado correctamente.");
-            return ResponseEntity.ok("Lugar creado exitosamente.");
+            System.out.println("Lugar guardado correctamente");
+            return ResponseEntity.ok("Lugar creado exitosamente");
         } catch (Exception e) {
             System.err.println("Error al guardar el lugar:");
             e.printStackTrace();
@@ -67,8 +83,8 @@ public class SpotController {
         // Verificar si el spot existe
         if (spot != null) {
             // Actualizar solo los campos proporcionados en la solicitud
-        	if (updatedSpot.getIdSpot() != null) {
-                spot.setIdSpot(updatedSpot.getIdSpot());
+        	if (updatedSpot.getId() != null) {
+                spot.setId(updatedSpot.getId());
             }
             if (updatedSpot.getNameSpot() != null) {
                 spot.setNameSpot(updatedSpot.getNameSpot());
