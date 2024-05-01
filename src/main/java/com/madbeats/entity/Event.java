@@ -21,13 +21,14 @@ public class Event {
     private double price;
     private int minimumAge;
     private String musicCategory;
+    private String musicGenres;
     private String urlEvent;
     private String dressCode;
     @DBRef
     private Spot spot;
 
     public Event(String idEvent, String nameEvent, String artists, String date, String schedule, double price, int minimumAge,
-                 String musicCategory, String urlEvent, String dressCode, Spot spot) {
+                 String musicCategory, String musicGenres,String urlEvent, String dressCode, Spot spot) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.artists = artists;
@@ -36,6 +37,7 @@ public class Event {
         this.price = price;
         this.minimumAge = minimumAge;
         this.musicCategory = musicCategory;
+        this.musicGenres = musicGenres;
         this.urlEvent = urlEvent;
         this.dressCode = dressCode;
         this.spot = spot;
@@ -105,7 +107,15 @@ public class Event {
         this.musicCategory = musicCategory;
     }
 
-    public String getUrlEvent() {
+    public String getMusicGenres() {
+		return musicGenres;
+	}
+
+	public void setMusicGenres(String musicGenres) {
+		this.musicGenres = musicGenres;
+	}
+
+	public String getUrlEvent() {
         return urlEvent;
     }
 
@@ -129,20 +139,12 @@ public class Event {
         this.spot = spot;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "idEvent=" + idEvent +
-                ", nameEvent='" + nameEvent + '\'' +
-                ", artists='" + artists + '\'' +
-                ", date='" + date + '\'' +
-                ", schedule='" + schedule + '\'' +
-                ", price=" + price +
-                ", minimumAge=" + minimumAge +
-                ", musicCategory='" + musicCategory + '\'' +
-                ", urlEvent='" + urlEvent + '\'' +
-                ", dressCode='" + dressCode + '\'' +
-                ", spot=" + spot +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Event [idEvent=" + idEvent + ", nameEvent=" + nameEvent + ", artists=" + artists + ", date=" + date
+				+ ", schedule=" + schedule + ", price=" + price + ", minimumAge=" + minimumAge + ", musicCategory="
+				+ musicCategory + ", musicGenres=" + musicGenres + ", urlEvent=" + urlEvent + ", dressCode=" + dressCode
+				+ ", spot=" + spot + "]";
+	}
+
 }

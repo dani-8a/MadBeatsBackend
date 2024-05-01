@@ -1,5 +1,7 @@
 package com.madbeats.entity;
 
+import java.util.Objects;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -50,4 +52,20 @@ public class Spot {
 	public String toString() {
 		return "Spot [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + "]";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+	    Spot spot = (Spot) o;
+	    return Objects.equals(idSpot, spot.idSpot) &&
+	            Objects.equals(nameSpot, spot.nameSpot) &&
+	            Objects.equals(addressSpot, spot.addressSpot);
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(idSpot, nameSpot, addressSpot);
+	}
+
 }
