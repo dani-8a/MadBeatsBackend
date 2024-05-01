@@ -31,7 +31,6 @@ public class Event {
     private String urlEvent;
     private String dressCode;
     @DBRef
-    //@JsonBackReference
     private Spot spot;
 
     public Event(String idEvent, String nameEvent, String artist, String date, String schedule, double price, int minimumAge,
