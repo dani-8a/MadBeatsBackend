@@ -1,25 +1,24 @@
 package com.madbeats.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@Document(collection = "Spots")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Spot {
+public class SpotWithEventResponse {
 
-    @Id
     private String idSpot;
     private String nameSpot;
     private String addressSpot;
+    private List <Event> events;
 
-    public Spot(String idSpot, String nameSpot, String addressSpot) {
-        this.idSpot = idSpot;
-        this.nameSpot = nameSpot;
-        this.addressSpot = addressSpot;
+    public SpotWithEventResponse(Spot spot, List<Event> events) {
+        this.idSpot = spot.getIdSpot();
+        this.nameSpot = spot.getNameSpot();
+        this.addressSpot = spot.getAddressSpot();
+        this.events = events;
     }
 
     public String getIdSpot() {
@@ -45,9 +44,19 @@ public class Spot {
     public void setAddressSpot(String addressSpot) {
         this.addressSpot = addressSpot;
     }
+    
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
 
 	@Override
 	public String toString() {
-		return "Spot [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + "]";
+		return "SpotWithEventResponse [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot
+				+ ", events=" + events + "]";
 	}
+
 }

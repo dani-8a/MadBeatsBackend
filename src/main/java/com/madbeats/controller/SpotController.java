@@ -1,6 +1,7 @@
 package com.madbeats.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.madbeats.entity.Event;
 import com.madbeats.entity.Spot;
+import com.madbeats.entity.SpotWithEventResponse;
+import com.madbeats.repository.EventRepository;
 import com.madbeats.repository.SpotRepository;
 
 @RestController
@@ -26,6 +30,8 @@ public class SpotController {
 
     @Autowired
     private SpotRepository spotRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -35,9 +41,33 @@ public class SpotController {
         for (Spot spot : spots) {
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
+            System.out.println("Spot Address: " + spot.getAddressSpot());
         }
         return spots;
     }
+    
+    @GetMapping("/{spotId}/events")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<SpotWithEventResponse> getSpotWithEvent(@PathVariable String spotId) {
+        // Buscar el spot por su ID
+        Optional<Spot> spotOptional = spotRepository.findById(spotId);
+        if (spotOptional.isPresent()) {
+            Spot spot = spotOptional.get();
+            
+            // Obtener todos los eventos asociados a ese spot
+            List<Event> events = eventRepository.findBySpot(spot);
+            
+            // Crear el objeto SpotWithEventResponse
+            SpotWithEventResponse spotWithEventResponse = new SpotWithEventResponse(spot, events);
+            
+            // Devolver el objeto en la respuesta
+            return ResponseEntity.ok(spotWithEventResponse);
+        } else {
+            // Si el spot no se encuentra, devolver una respuesta de error 404
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

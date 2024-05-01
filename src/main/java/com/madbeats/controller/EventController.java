@@ -85,8 +85,8 @@ public class EventController {
                 if (updatedEvent.getNameEvent() != null) {
                     event.setNameEvent(updatedEvent.getNameEvent());
                 }
-                if (updatedEvent.getArtist() != null) {
-                    event.setArtist(updatedEvent.getArtist());
+                if (updatedEvent.getArtists() != null) {
+                    event.setArtists(updatedEvent.getArtists());
                 }
                 if (updatedEvent.getDate() != null) {
                     event.setDate(updatedEvent.getDate());
