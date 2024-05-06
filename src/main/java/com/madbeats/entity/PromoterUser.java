@@ -9,21 +9,28 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Users")
-public class User {
+@Document(collection = "Promoter_Users")
+public class PromoterUser {
 	
 	@Id
 	private String idUser;
 	@Indexed (unique = true, direction = IndexDirection.DESCENDING)
 	private String email;
 	private String password;
-	private boolean active;
-	/**
-	@DBRef
-	private Set <Role> roles;
 	private ArrayList <Event> favouritesEventList = new ArrayList<>();
 	private ArrayList <Spot> favouritesSpotList = new ArrayList<>();
-	**/
+	private ArrayList <Event> myEvents = new ArrayList<>();
+	
+	public PromoterUser(String idUser, String email, String password, ArrayList<Event> favouritesEventList,
+			ArrayList<Spot> favouritesSpotList, ArrayList<Event> myEvents) {
+		super();
+		this.idUser = idUser;
+		this.email = email;
+		this.password = password;
+		this.favouritesEventList = favouritesEventList;
+		this.favouritesSpotList = favouritesSpotList;
+		this.myEvents = myEvents;
+	}
 	public String getIdUser() {
 		return idUser;
 	}
@@ -42,18 +49,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-/**	public Set<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
 	public ArrayList<Event> getFavouritesEventList() {
 		return favouritesEventList;
 	}
@@ -65,5 +60,11 @@ public class User {
 	}
 	public void setFavouritesSpotList(ArrayList<Spot> favouritesSpotList) {
 		this.favouritesSpotList = favouritesSpotList;
-	}**/
+	}
+	public ArrayList<Event> getMyEvents() {
+		return myEvents;
+	}
+	public void setMyEvents(ArrayList<Event> myEvents) {
+		this.myEvents = myEvents;
+	}
 }

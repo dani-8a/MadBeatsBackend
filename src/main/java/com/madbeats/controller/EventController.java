@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.madbeats.entity.Event;
 import com.madbeats.entity.Spot;
 import com.madbeats.repository.EventRepository;
-import com.madbeats.repository.SpotRepository;
 
 @RestController
 @RequestMapping("/api/events")
@@ -29,9 +28,6 @@ public class EventController {
 
     @Autowired
     private EventRepository eventRepository;
-
-    @Autowired
-    private SpotRepository spotRepository;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -54,7 +50,42 @@ public class EventController {
 
         return events;
     }
-
+    
+    @GetMapping("{eventId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Event> getEventInfo(@PathVariable String eventId) {
+        // Buscar el evento por su ID
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            // Obtener el evento
+            Event event = eventOptional.get();
+            
+            // Imprimir información del evento
+            System.out.println("Event Information:");
+            System.out.println("-----------------");
+            System.out.println("Event ID: " + event.getIdEvent());
+            System.out.println("Event Name: " + event.getNameEvent());
+            // Imprime más información del evento si lo deseas
+            
+            // Obtener el spot asociado al evento
+            Spot spot = event.getSpot();
+            
+            // Imprimir información del spot asociado
+            System.out.println("");
+            System.out.println("Spot Information:");
+            System.out.println("-----------------");
+            System.out.println("Spot ID: " + spot.getIdSpot());
+            System.out.println("Spot Name: " + spot.getNameSpot());
+            // Imprime más información del spot si lo deseas
+            
+            // Devolver el evento con la información del spot asociado
+            return ResponseEntity.ok(event);
+        } else {
+            // Si el evento no se encuentra, devolver una respuesta de error 404
+            System.out.println("*** Event not found ***");
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -102,6 +133,9 @@ public class EventController {
                 }
                 if (updatedEvent.getMusicCategory() != null) {
                     event.setMusicCategory(updatedEvent.getMusicCategory());
+                }
+                if (updatedEvent.getMusicGenres() != null) {
+                    event.setMusicGenres(updatedEvent.getMusicGenres());
                 }
                 if (updatedEvent.getUrlEvent() != null) {
                     event.setUrlEvent(updatedEvent.getUrlEvent());
