@@ -18,10 +18,14 @@ public class DefaultUser {
     private String email;
     private String password;
     private List<Event> favouritesEventList;
-    private List<SpotWithEventResponse> favouritesSpotList;
+    private List<Spot> favouritesSpotList;
+    
+    public DefaultUser() {
+    	
+    }
 
     public DefaultUser(String idUser, String email, String password, List<Event> favouritesEventList,
-                       List<SpotWithEventResponse> favouritesSpotList) {
+                       List<Spot> favouritesSpotList) {
         this.idUser = idUser;
         this.email = email;
         this.password = password;
@@ -61,11 +65,11 @@ public class DefaultUser {
         this.favouritesEventList = favouritesEventList;
     }
 
-    public List<SpotWithEventResponse> getFavouritesSpotList() {
+    public List<Spot> getFavouritesSpotList() {
         return favouritesSpotList;
     }
 
-    public void setFavouritesSpotList(List<SpotWithEventResponse> favouritesSpotList) {
+    public void setFavouritesSpotList(List<Spot> favouritesSpotList) {
         this.favouritesSpotList = favouritesSpotList;
     }
 }
