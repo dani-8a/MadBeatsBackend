@@ -1,38 +1,35 @@
 package com.madbeats.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Document(collection = "Spots")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Spot {
 
     @Id
-    private String id;
+    private String idSpot;
     private String nameSpot;
     private String addressSpot;
-    private List <Event> eventList; 
 
-    public Spot(String id, String nameSpot, String addressSpot, List<Event> eventList) {
-		super();
-		this.id = id;
-		this.nameSpot = nameSpot;
-		this.addressSpot = addressSpot;
-		this.eventList = new ArrayList<>();
-	}
-
-	public Spot() {
-		this.eventList = new ArrayList<>();
-    }
-    
-    public String getId() {
-        return id;
+    public Spot(String idSpot, String nameSpot, String addressSpot) {
+        this.idSpot = idSpot;
+        this.nameSpot = nameSpot;
+        this.addressSpot = addressSpot;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getIdSpot() {
+        return idSpot;
+    }
+
+    public void setIdSpot(String idSpot) {
+        this.idSpot = idSpot;
     }
 
     public String getNameSpot() {
@@ -51,18 +48,24 @@ public class Spot {
         this.addressSpot = addressSpot;
     }
 
-	public List<Event> getEventList() {
-		return eventList;
+	@Override
+	public String toString() {
+		return "Spot [idSpot=" + idSpot + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + "]";
 	}
-
-	public void setEventList(List<Event> eventList) {
-		this.eventList = eventList;
+	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+	    Spot spot = (Spot) o;
+	    return Objects.equals(idSpot, spot.idSpot) &&
+	            Objects.equals(nameSpot, spot.nameSpot) &&
+	            Objects.equals(addressSpot, spot.addressSpot);
 	}
 
 	@Override
-	public String toString() {
-		return "Spot [id=" + id + ", nameSpot=" + nameSpot + ", addressSpot=" + addressSpot + ", eventList="
-				+ eventList + "]";
+	public int hashCode() {
+	    return Objects.hash(idSpot, nameSpot, addressSpot);
 	}
 
 }

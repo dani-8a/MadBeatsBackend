@@ -1,13 +1,19 @@
 package com.madbeats.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Document(collection = "Events")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
 
     @Id
-    private String id;
+    private String idEvent;
     private String nameEvent;
     private String artists;
     private String date;
@@ -15,13 +21,15 @@ public class Event {
     private double price;
     private int minimumAge;
     private String musicCategory;
-    private String musicGenre;
+    private String musicGenres;
     private String urlEvent;
     private String dressCode;
+    @DBRef
+    private Spot spot;
 
-    public Event(String id, String nameEvent, String artists, String date, String schedule, double price, int minimumAge,
-                 String musicCategory, String musicGenre, String urlEvent, String dressCode) {
-        this.id = id;
+    public Event(String idEvent, String nameEvent, String artists, String date, String schedule, double price, int minimumAge,
+                 String musicCategory, String musicGenres,String urlEvent, String dressCode, Spot spot) {
+        this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.artists = artists;
         this.date = date;
@@ -29,21 +37,18 @@ public class Event {
         this.price = price;
         this.minimumAge = minimumAge;
         this.musicCategory = musicCategory;
-        this.musicGenre = musicGenre;
+        this.musicGenres = musicGenres;
         this.urlEvent = urlEvent;
         this.dressCode = dressCode;
-    }
-    
-    public Event() {
-    	
+        this.spot = spot;
     }
 
     public String getIdEvent() {
-        return id;
+        return idEvent;
     }
 
-    public void setIdEvent(String id) {
-        this.id = id;
+    public void setIdEvent(String idEvent) {
+        this.idEvent = idEvent;
     }
 
     public String getNameEvent() {
@@ -102,12 +107,12 @@ public class Event {
         this.musicCategory = musicCategory;
     }
 
-    public String getMusicGenre() {
-		return musicGenre;
+    public String getMusicGenres() {
+		return musicGenres;
 	}
 
-	public void setMusicGenre(String musicGenre) {
-		this.musicGenre = musicGenre;
+	public void setMusicGenres(String musicGenres) {
+		this.musicGenres = musicGenres;
 	}
 
 	public String getUrlEvent() {
@@ -126,24 +131,20 @@ public class Event {
         this.dressCode = dressCode;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", nameEvent='" + nameEvent + '\'' +
-                ", artists='" + artists + '\'' +
-                ", date='" + date + '\'' +
-                ", schedule='" + schedule + '\'' +
-                ", price=" + price +
-                ", minimumAge=" + minimumAge +
-                ", musicCategory='" + musicCategory + '\'' +
-                ", musicGenre='" + musicGenre + '\'' +
-                ", urlEvent='" + urlEvent + '\'' +
-                ", dressCode='" + dressCode + '\'' +
-                '}';
+    public Spot getSpot() {
+        return spot;
     }
 
-	public void setSpot(Spot spot) {
-		
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
+
+	@Override
+	public String toString() {
+		return "Event [idEvent=" + idEvent + ", nameEvent=" + nameEvent + ", artists=" + artists + ", date=" + date
+				+ ", schedule=" + schedule + ", price=" + price + ", minimumAge=" + minimumAge + ", musicCategory="
+				+ musicCategory + ", musicGenres=" + musicGenres + ", urlEvent=" + urlEvent + ", dressCode=" + dressCode
+				+ ", spot=" + spot + "]";
 	}
+
 }

@@ -2,6 +2,9 @@ package com.madbeats.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
 
 import javax.validation.Valid;
 
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.madbeats.entity.Event;
 import com.madbeats.entity.Spot;
+import com.madbeats.entity.SpotWithEventResponse;
+import com.madbeats.repository.EventRepository;
 import com.madbeats.repository.SpotRepository;
 
 @RestController
@@ -28,6 +33,8 @@ public class SpotController {
 
     @Autowired
     private SpotRepository spotRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -35,38 +42,128 @@ public class SpotController {
         List<Spot> spots = spotRepository.findAll();
         System.out.println("Total spots found: " + spots.size());
         for (Spot spot : spots) {
-            System.out.println("Spot ID: " + spot.getId());
+            System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
+            System.out.println("Spot Address: " + spot.getAddressSpot());
         }
         return spots;
     }
-    /**
-    @GetMapping("/spots/{spotId}")
+    
+    @GetMapping("/{spotId}/events")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Spot> getSpotDetails(@PathVariable String spotId) {
-        Optional<Spot> optionalSpot = spotRepository.findById(spotId);
-        if (optionalSpot.isPresent()) {
-            Spot spot = optionalSpot.get();
-            List<Event> events = spot.getEventList(); // Obtener la lista de eventos asociados al spot
-            spot.setEventList(events); // Establecer la lista de eventos en el spot
-            return ResponseEntity.ok(spot);
+    public ResponseEntity<SpotWithEventResponse> getSpotWithEvents(@PathVariable String spotId) {
+        // Buscar el spot por su ID
+        Optional<Spot> spotOptional = spotRepository.findById(spotId);
+        if (spotOptional.isPresent()) {
+            Spot spot = spotOptional.get();
+            
+            // Obtener todos los eventos asociados a ese spot
+            List<Event> events = eventRepository.findBySpot(spot);
+            
+            // Imprimir información del spot
+            System.out.println("Spot Information:");
+            System.out.println("-----------------");
+            System.out.println("Spot ID: " + spot.getIdSpot());
+            System.out.println("Spot Name: " + spot.getNameSpot());
+            System.out.println("Spot Address: " + spot.getAddressSpot());
+            System.out.println("");
+            
+            // Imprimir información de los eventos asociados
+            System.out.println("Events Associated with Spot:");
+            System.out.println("----------------------------");
+            for (Event event : events) {
+                System.out.println("Event ID: " + event.getIdEvent());
+                System.out.println("Event Name: " + event.getNameEvent());
+                System.out.println("");
+                // Imprime más información si lo deseas
+            }
+            
+            // Crear el objeto SpotWithEventResponse
+            SpotWithEventResponse spotWithEventResponse = new SpotWithEventResponse(spot, events);
+            
+            // Devolver el objeto en la respuesta
+            return ResponseEntity.ok(spotWithEventResponse);
         } else {
+            // Si el spot no se encuentra, devolver una respuesta de error 404
+        	System.out.println("*** Spot not found ***");
             return ResponseEntity.notFound().build();
         }
-    }**/
+    }
+    
+    @GetMapping("/spotsByMusicCategory/{musicCategory}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Spot>> getSpotsByMusicCategory(@PathVariable String musicCategory) {
+        // Obtener todos los eventos con la categoría musical proporcionada
+        List<Event> events = eventRepository.findByMusicCategory(musicCategory);
+        
+        // Crear un HashSet para almacenar los spots sin duplicados
+        Set<Spot> uniqueSpots = new HashSet<>();
+        
+        // Agregar los spots asociados a los eventos de la categoria musical al HashSet
+        for (Event event : events) {
+            uniqueSpots.add(event.getSpot());
+        }
+        
+        // Imprimir la información de los spots
+        System.out.println(uniqueSpots.size()+ " spots with events of music category: " + musicCategory);
+        for (Spot spot : uniqueSpots) {
+            System.out.println("Spot ID: " + spot.getIdSpot());
+            System.out.println("Spot Name: " + spot.getNameSpot());
+            System.out.println("Spot Address: " + spot.getAddressSpot());
+        }
+        
+        // Convertir el HashSet en una lista
+        List<Spot> spots = new ArrayList<>(uniqueSpots);
+        
+        // Devolver la lista de spots como respuesta
+        return ResponseEntity.ok(spots);
+    }
+    
+    @GetMapping("/spotsByEventDate/{day}/{month}/{year}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Spot>> getSpotsByEventDate(@PathVariable int day, @PathVariable int month, @PathVariable int year) {
+        // Construir la fecha en el formato esperado por el repositorio de eventos
+        String date = String.format("%02d/%02d/%04d", day, month, year);
+    	
+        // Obtener todos los eventos con la fecha proporcionada
+        List<Event> events = eventRepository.findByDate(date);
+        
+        // Crear un conjunto para almacenar los spots sin duplicados
+        Set<Spot> uniqueSpots = new HashSet<>();
+        
+        // Agregar los spots asociados a los eventos al conjunto
+        for (Event event : events) {
+            uniqueSpots.add(event.getSpot());
+        }
+        
+        // Imprimir la información de los spots
+        System.out.println(uniqueSpots.size()+" spots with events on date: " + date);
+        for (Spot spot : uniqueSpots) {
+            System.out.println("Spot ID: " + spot.getIdSpot());
+            System.out.println("Spot Name: " + spot.getNameSpot());
+            System.out.println("Spot Address: " + spot.getAddressSpot());
+        }
+        
+        // Convertir el conjunto en una lista
+        List<Spot> spots = new ArrayList<>(uniqueSpots);
+        
+        // Devolver la lista de spots como respuesta
+        return ResponseEntity.ok(spots);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createSpot(@Valid @RequestBody Spot spot) {
         System.out.println("Solicitud de creación de lugar recibida:");
-        System.out.println("ID: " + spot.getId());
+        System.out.println("ID: " + spot.getIdSpot());
         System.out.println("Nombre: " + spot.getNameSpot());
         System.out.println("Dirección: " + spot.getAddressSpot());
 
         try {
             spotRepository.save(spot);
-            System.out.println("Lugar guardado correctamente");
-            return ResponseEntity.ok("Lugar creado exitosamente");
+            System.out.println("Lugar guardado correctamente.");
+            return ResponseEntity.ok("Lugar creado exitosamente.");
         } catch (Exception e) {
             System.err.println("Error al guardar el lugar:");
             e.printStackTrace();
@@ -83,8 +180,8 @@ public class SpotController {
         // Verificar si el spot existe
         if (spot != null) {
             // Actualizar solo los campos proporcionados en la solicitud
-        	if (updatedSpot.getId() != null) {
-                spot.setId(updatedSpot.getId());
+        	if (updatedSpot.getIdSpot() != null) {
+                spot.setIdSpot(updatedSpot.getIdSpot());
             }
             if (updatedSpot.getNameSpot() != null) {
                 spot.setNameSpot(updatedSpot.getNameSpot());
@@ -117,53 +214,6 @@ public class SpotController {
             System.err.println("Spot not found.");
         }
     }
-/**
-    @DeleteMapping("/{spotId}/events")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAllEventsInSpot(@PathVariable String spotId) {
-        // Buscar el spot en la base de datos utilizando el ID
-        Spot spot = spotRepository.findById(spotId).orElse(null);
-
-        // Verificar si el spot existe
-        if (spot != null) {
-            // Eliminar todos los eventos del spot
-            spot.getEvents().clear();
-            spotRepository.save(spot);
-            System.out.println("Events in spot deleted successfully.");
-        } else {
-            System.err.println("Spot not found.");
-        }
-    }
- 
-    @DeleteMapping("/{spotId}/events/{eventId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteSelectedEventInSpot(@PathVariable String spotId, @PathVariable String eventId) {
-        // Buscar el spot en la base de datos utilizando el ID
-        Spot spot = spotRepository.findById(spotId).orElse(null);
-
-        // Verificar si el spot existe
-        if (spot != null) {
-            // Buscar el evento en la lista de eventos del spot
-            Event eventToDelete = null;
-            for (Event event : spot.getEvents()) {
-                if (event.getIdEvent().equals(eventId)) {
-                    eventToDelete = event;
-                    break;
-                }
-            }
-
-            // Verificar si se encontró el evento
-            if (eventToDelete != null) {
-                // Eliminar el evento de la lista de eventos del spot
-                spot.getEvents().remove(eventToDelete);
-                spotRepository.save(spot);
-                System.out.println("Event deleted from spot successfully.");
-            } else {
-                System.err.println("Event not found in the spot.");
-            }
-        } else {
-            System.err.println("Spot not found.");
-        }
-    }**/
+    
 }
 
