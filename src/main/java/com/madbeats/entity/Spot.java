@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Document(collection = "Spots")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Spot {
 
     @Id

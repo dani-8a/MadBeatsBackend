@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Document(collection = "Events")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Event {
 
     @Id
