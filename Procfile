@@ -1,0 +1,1 @@
+web: ./build/install/madbeats-backend/bin/madbeats-backend
