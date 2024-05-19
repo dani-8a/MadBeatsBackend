@@ -34,7 +34,7 @@ public class EventController {
     public List<Event> getAllEvents() {
         List<Event> events = eventRepository.findAll();
 
-        System.out.println("Total events found: " + events.size())
+        System.out.println("Total events found: " + events.size());
         for (Event event : events) {
             System.out.println("Event ID: " + event.getIdEvent());
             System.out.println("Event Name: " + event.getNameEvent());
