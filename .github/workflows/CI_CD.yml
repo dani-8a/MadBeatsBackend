@@ -20,4 +20,4 @@ jobs:
           distribution: 'adopt'
 
       - name: Run build with Maven Wrapper
-        run: ./mvnw clean install
+        run: mvn clean install
