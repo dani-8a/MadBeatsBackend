@@ -27,12 +27,12 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
         
-      - name: Build and push stage
+      - name: Build and push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:push -a madbeats-backend web
 
-      - name: Release stage
+      - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a madbeats-backend web
