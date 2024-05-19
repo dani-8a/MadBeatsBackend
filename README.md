@@ -1,1 +1,1 @@
-Backend for MadBeats plartform
+Backend for MadBeats platform
