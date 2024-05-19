@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout (Backend download == git clone)
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 21 (Java installation)
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'adopt'
 
-      - name: Run build with Maven Wrapper
+      - name: Run build with Maven Wrapper (Generate backend jar in target folder)
         run: mvn clean install
         
       - name: Login to Heroku Container registry
@@ -27,7 +27,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
         
-      - name: Build and push
+      - name: Build container using dockerfile and push to heroku registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:push -a madbeats-backend web
