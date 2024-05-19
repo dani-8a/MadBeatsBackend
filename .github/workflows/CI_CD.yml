@@ -22,6 +22,11 @@ jobs:
       - name: Run build with Maven Wrapper
         run: mvn clean install
         
+      - name: Login to Heroku Container registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+        
       - name: Build and push stage
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
