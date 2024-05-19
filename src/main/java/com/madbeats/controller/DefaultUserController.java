@@ -35,7 +35,7 @@ public class DefaultUserController {
     public ResponseEntity<String> registerUser(@RequestBody DefaultUser user) {
         Optional<DefaultUser> existingUser = defaultUserRepository.findByEmail(user.getEmail());
         if (existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already register");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already registered");
         }
 
         defaultUserRepository.save(user);
