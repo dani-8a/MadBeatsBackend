@@ -10,11 +10,6 @@ import com.madbeats.repository.EventRepository;
 @RestController
 @RequestMapping("/v1")
 public class GreetingController {
-	EventRepository eventRepository;
-
-	public GreetingController(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
 
 	@GetMapping("/hello")
     public String sayHello(@RequestParam String name) { // http://localhost:8080/v1/hello?name=MadBeats

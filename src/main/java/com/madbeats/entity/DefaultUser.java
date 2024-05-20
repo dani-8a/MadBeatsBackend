@@ -72,4 +72,15 @@ public class DefaultUser {
     public void setFavouritesSpotList(List<Spot> favouritesSpotList) {
         this.favouritesSpotList = favouritesSpotList;
     }
+    
+    @Override
+    public String toString() {
+        return "DefaultUser{" +
+                "idUser='" + idUser + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", favouritesEventList=" + favouritesEventList +
+                ", favouritesSpotList=" + favouritesSpotList +
+                '}';
+    }
 }
