@@ -3,6 +3,8 @@ package com.madbeats.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -13,19 +15,19 @@ public class DefaultUser {
 
     @Id
     private String idUser;
-
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     private String email;
     private String password;
+    @DBRef
     private List<Event> favouritesEventList;
+    @DBRef
     private List<Spot> favouritesSpotList;
     
     public DefaultUser() {
     	
     }
 
-    public DefaultUser(String idUser, String email, String password, List<Event> favouritesEventList,
-                       List<Spot> favouritesSpotList) {
+    public DefaultUser(String idUser, String email, String password, List<Event> favouritesEventList, List<Spot> favouritesSpotList) {
         this.idUser = idUser;
         this.email = email;
         this.password = password;

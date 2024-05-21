@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,32 +25,47 @@ public class SpotFavouritesController {
 
     @PostMapping("/{userId}/add_spot/{spotId}")
     public ResponseEntity<String> addSpotToFavourites(@PathVariable String userId, @PathVariable String spotId) {
+        System.out.println("Received request to add spot " + spotId + " to user " + userId);
+
         Optional<DefaultUser> optionalUser = defaultUserRepository.findById(userId);
         Optional<Spot> optionalSpot = spotRepository.findById(spotId);
 
         if (optionalUser.isEmpty()) {
-            System.out.println("User not found");
+            System.out.println("User not found: " + userId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
         if (optionalSpot.isEmpty()) {
-            System.out.println("Spot not found");
+            System.out.println("Spot not found: " + spotId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Spot not found");
         }
 
         DefaultUser user = optionalUser.get();
         Spot spot = optionalSpot.get();
 
-        if (user.getFavouritesSpotList().stream().anyMatch(e -> e.getIdSpot().equals(spotId))) {
-            System.out.println("Spot is already in your favourite list");
+        System.out.println("User found: " + user.toString());
+        System.out.println("Spot found: " + spot.toString());
+
+        // Initialize lists if they are null
+        if (user.getFavouritesSpotList() == null) {
+            user.setFavouritesSpotList(new ArrayList<>());
+        }
+
+        if (user.getFavouritesSpotList() == null) {
+            user.setFavouritesSpotList(new ArrayList<>());
+        }
+
+        if (user.getFavouritesSpotList().stream().anyMatch(s -> s.getIdSpot().equals(spotId))) {
+            System.out.println("Spot is already in your favourite list: " + spotId);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Spot is already in your favourite list");
         }
 
         user.getFavouritesSpotList().add(spot);
         defaultUserRepository.save(user);
-        System.out.println("Spot added to your favourite list");
+        System.out.println("Spot added to your favourite list: " + user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body("Spot added to your favourite list");
     }
+
 
     @GetMapping("/{userId}/favourite_spots")
     public ResponseEntity<List<Spot>> getFavouriteSpots(@PathVariable String userId) {

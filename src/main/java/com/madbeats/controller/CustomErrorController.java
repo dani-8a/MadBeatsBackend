@@ -8,7 +8,7 @@ public class CustomErrorController {
 
     @ExceptionHandler(Exception.class)
     public String handleError() {
-        System.out.println("error....");
+        System.out.println("error...");
         return "error";
     }
 }
