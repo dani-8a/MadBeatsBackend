@@ -46,7 +46,6 @@ public class SpotFavouritesController {
         System.out.println("User found: " + user.toString());
         System.out.println("Spot found: " + spot.toString());
 
-        // Initialize lists if they are null
         if (user.getFavouritesSpotList() == null) {
             user.setFavouritesSpotList(new ArrayList<>());
         }
@@ -129,4 +128,28 @@ public class SpotFavouritesController {
         System.out.println("Spot deleted from favourites");
         return ResponseEntity.ok("Spot deleted from favourites");
     }
+    
+    @GetMapping("/{userId}/spots/{spotId}/is_favorite")
+    public ResponseEntity<Boolean> isSpotInFavorites(@PathVariable String userId, @PathVariable String spotId) {
+        Optional<DefaultUser> optionalUser = defaultUserRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            System.out.println("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }
+
+        DefaultUser user = optionalUser.get();
+        List<Spot> favoriteSpots = user.getFavouritesSpotList();
+
+        boolean isFavorite = favoriteSpots.stream().anyMatch(spot -> spot.getIdSpot().equals(spotId));
+
+        if (isFavorite) {
+            System.out.println("Spot with ID " + spotId + " is a favorite for user with ID " + userId);
+        } else {
+            System.out.println("Spot with ID " + spotId + " is not a favorite for user with ID " + userId);
+        }
+
+        return ResponseEntity.ok(isFavorite);
+    }
+
 }

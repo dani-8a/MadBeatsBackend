@@ -46,7 +46,6 @@ public class EventFavouritesController {
         System.out.println("User found: " + user.toString());
         System.out.println("Event found: " + event.toString());
 
-        // Initialize lists if they are null
         if (user.getFavouritesEventList() == null) {
             user.setFavouritesEventList(new ArrayList<>());
         }
@@ -66,8 +65,7 @@ public class EventFavouritesController {
         return ResponseEntity.status(HttpStatus.OK).body("Event added to your favourite list");
     }
 
-
-
+    
     @GetMapping("/{userId}/favourite_events")
     public ResponseEntity<List<Event>> getFavouriteEvents(@PathVariable String userId) {
         Optional<DefaultUser> optionalUser = defaultUserRepository.findById(userId);
@@ -130,4 +128,27 @@ public class EventFavouritesController {
         System.out.println("Event deleted from favourites");
         return ResponseEntity.ok("Event deleted from favourites");
     }
+    
+    @GetMapping("/{userId}/events/{eventId}/is_favourite")
+    public ResponseEntity<Boolean> isEventInFavourites(@PathVariable String userId, @PathVariable String eventId) {
+        Optional<DefaultUser> optionalUser = defaultUserRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            System.out.println("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }
+
+        DefaultUser user = optionalUser.get();
+        List<Event> favoriteEvents = user.getFavouritesEventList();
+
+        boolean isFavorite = favoriteEvents.stream().anyMatch(event -> event.getIdEvent().equals(eventId));
+        if (isFavorite) {
+            System.out.println("Event with ID " + eventId + " is a favorite for user with ID " + userId);
+        } else {
+            System.out.println("Event with ID " + eventId + " is not a favorite for user with ID " + userId);
+        }
+
+        return ResponseEntity.ok(isFavorite);
+    }
+
 }

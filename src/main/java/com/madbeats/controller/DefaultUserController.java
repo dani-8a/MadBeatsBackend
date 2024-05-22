@@ -35,8 +35,8 @@ public class DefaultUserController {
         }
 
         if (user.getPassword().length() < 6) {
-            System.out.println("Password must be at least 8 characters long");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password must be at least 8 characters long");
+            System.out.println("Password must be at least 6 characters long");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password must be at least 6 characters long");
         }
 
         Optional<DefaultUser> existingUser = defaultUserRepository.findByEmail(user.getEmail());
@@ -49,7 +49,6 @@ public class DefaultUserController {
         System.out.println("User successfully registered");
         return ResponseEntity.status(HttpStatus.CREATED).body("User successfully registered");
     }
-
 
 
     @PostMapping("/login")
