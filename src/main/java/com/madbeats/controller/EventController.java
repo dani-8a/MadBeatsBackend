@@ -35,6 +35,7 @@ public class EventController {
         List<Event> events = eventRepository.findAll();
 
         System.out.println("Total events found: " + events.size());
+        System.out.println("");
         for (Event event : events) {
             System.out.println("Event ID: " + event.getIdEvent());
             System.out.println("Event Name: " + event.getNameEvent());
@@ -42,16 +43,15 @@ public class EventController {
             if (event.getSpot() != null) {
                 System.out.println("Spot ID: " + event.getSpot().getIdSpot());
                 System.out.println("Spot Name: " + event.getSpot().getNameSpot());
-                System.out.println("Spot Address: " + event.getSpot().getAddressSpot());
+                System.out.println("");
             } else {
                 System.out.println("No Spot associated with Event");
             }
         }
-
         return events;
     }
     
-    @GetMapping("{eventId}")
+    @GetMapping("/event_info/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Event> getEventInfo(@PathVariable String eventId) {
         // Buscar el evento por su ID
@@ -76,6 +76,7 @@ public class EventController {
             System.out.println("-----------------");
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
+            System.out.println("");
             // Imprime más información del spot si lo deseas
             
             // Devolver el evento con la información del spot asociado
@@ -91,25 +92,26 @@ public class EventController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
         try {
-            System.out.println("JSON recibido en el backend para crear evento: " + event.toString());
+            System.out.println("JSON recieved to create an event: " + event.toString());
             
             Event savedEvent = eventRepository.save(event);
-            System.out.println("Evento guardado correctamente.");
-            return ResponseEntity.status(HttpStatus.CREATED).body("Evento guardado correctamente.");
+            System.out.println("Event succesfully created");
+            System.out.println("");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Event succesfully created");
         } catch (Exception e) {
-            System.err.println("Error al guardar el evento:");
+            System.err.println("Error creating the event:");
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el evento.");
+            System.out.println("");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the event");
         }
     }
     
-    @PutMapping("/{eventId}")
+    @PutMapping("/update_event/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateEvent(@PathVariable String eventId, @RequestBody Event updatedEvent) {
         try {
             // Buscar el evento en la base de datos utilizando el ID
             Event event = eventRepository.findById(eventId).orElse(null);
-
             // Verificar si el evento existe
             if (event != null) {
                 // Actualizar solo los campos proporcionados en la solicitud
@@ -121,7 +123,7 @@ public class EventController {
                 }
                 if (updatedEvent.getDate() != null) {
                     event.setDate(updatedEvent.getDate());
-                }
+                }			
                 if (updatedEvent.getSchedule() != null) {
                     event.setSchedule(updatedEvent.getSchedule());
                 }
@@ -140,28 +142,30 @@ public class EventController {
                 if (updatedEvent.getUrlEvent() != null) {
                     event.setUrlEvent(updatedEvent.getUrlEvent());
                 }
-                if (updatedEvent.getDressCode() != null) {
+                if (updatedEvent.getDressCode() != null) {			
                     event.setDressCode(updatedEvent.getDressCode());
                 }
 
                 // Guardar el evento actualizado en la base de datos
                 eventRepository.save(event);
-                System.out.println("Event updated successfully.");
-
-                return ResponseEntity.ok().body("Event updated successfully.");
+                System.out.println("Event updated successfully");
+                System.out.println("");
+                return ResponseEntity.ok().body("Event updated successfully");
             } else {
-                System.err.println("Event not found.");
+                System.err.println("Event not found");
+                System.out.println("");
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             System.err.println("Error updating event:");
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating event.");
+            System.out.println("");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating event");
         }
     }
 
     
-    @DeleteMapping("/{idEvent}")
+    @DeleteMapping("/delete_event/{idEvent}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteEvent(@PathVariable String idEvent) {
         try {
@@ -173,16 +177,19 @@ public class EventController {
                 // Eliminar el evento de la base de datos
                 eventRepository.delete(event);
 
-                System.out.println("Event deleted successfully.");
-                return ResponseEntity.ok().body("Event deleted successfully.");
+                System.out.println("Event deleted successfully");
+                System.out.println("");
+                return ResponseEntity.ok().body("Event deleted successfully");
             } else {
-                System.err.println("Event not found.");
+                System.err.println("Event not found");
+                System.out.println("");
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             System.err.println("Error deleting event:");
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting event.");
+            System.out.println("");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting event");
         }
     }
 

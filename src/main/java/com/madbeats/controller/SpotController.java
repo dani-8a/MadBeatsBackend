@@ -41,15 +41,17 @@ public class SpotController {
     public List<Spot> getAllSpots(){
         List<Spot> spots = spotRepository.findAll();
         System.out.println("Total spots found: " + spots.size());
+        System.out.println("");
         for (Spot spot : spots) {
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
             System.out.println("Spot Address: " + spot.getAddressSpot());
+            System.out.println("");
         }
         return spots;
     }
     
-    @GetMapping("/{spotId}/events")
+    @GetMapping("/{spotId}/events_associated")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<SpotWithEventResponse> getSpotWithEvents(@PathVariable String spotId) {
         // Buscar el spot por su ID
@@ -106,10 +108,12 @@ public class SpotController {
         
         // Imprimir la información de los spots
         System.out.println(uniqueSpots.size()+ " spots with events of music category: " + musicCategory);
+        System.out.println("");
         for (Spot spot : uniqueSpots) {
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
             System.out.println("Spot Address: " + spot.getAddressSpot());
+            System.out.println("");
         }
         
         // Convertir el HashSet en una lista
@@ -138,10 +142,12 @@ public class SpotController {
         
         // Imprimir la información de los spots
         System.out.println(uniqueSpots.size()+" spots with events on date: " + date);
+        System.out.println("");
         for (Spot spot : uniqueSpots) {
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
             System.out.println("Spot Address: " + spot.getAddressSpot());
+            System.out.println("");
         }
         
         // Convertir el conjunto en una lista
@@ -155,23 +161,27 @@ public class SpotController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createSpot(@Valid @RequestBody Spot spot) {
-        System.out.println("Solicitud de creación de lugar recibida:");
+        System.out.println("JSON recieved to create an event: " + spot.toString());
+        System.out.println("");
         System.out.println("ID: " + spot.getIdSpot());
-        System.out.println("Nombre: " + spot.getNameSpot());
-        System.out.println("Dirección: " + spot.getAddressSpot());
+        System.out.println("Spot name: " + spot.getNameSpot());
+        System.out.println("Address: " + spot.getAddressSpot());
+        System.out.println("");
 
         try {
             spotRepository.save(spot);
-            System.out.println("Lugar guardado correctamente.");
-            return ResponseEntity.ok("Lugar creado exitosamente.");
+            System.out.println("Spot created succesfully");
+            System.out.println("");
+            return ResponseEntity.ok("Spot created succesfully");
         } catch (Exception e) {
-            System.err.println("Error al guardar el lugar:");
+            System.err.println("Error creating the spot:");
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el lugar.");
+            System.out.println("");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the spot");
         }
     }
     
-    @PutMapping("/{spotId}")
+    @PutMapping("/update_spot/{spotId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateSpot(@PathVariable String spotId, @RequestBody Spot updatedSpot) {
         // Buscar el spot en la base de datos utilizando el ID
@@ -192,14 +202,16 @@ public class SpotController {
 
             // Guardar el spot actualizado en la base de datos
             spotRepository.save(spot);
-            System.out.println("Spot updated successfully.");
+            System.out.println("Spot updated successfully");
+            System.out.println("");
         } else {
-            System.err.println("Spot not found.");
+            System.err.println("Spot not found");
+            System.out.println("");
         }
     }
 
     
-    @DeleteMapping("/{spotId}")
+    @DeleteMapping("/delete_spot/{spotId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSpot(@PathVariable String spotId) {
         // Buscar el spot en la base de datos utilizando el ID
@@ -209,9 +221,11 @@ public class SpotController {
         if (spot != null) {
             // Eliminar el spot de la base de datos
             spotRepository.delete(spot);
-            System.out.println("Spot deleted successfully.");
+            System.out.println("Spot deleted successfully");
+            System.out.println("");
         } else {
-            System.err.println("Spot not found.");
+            System.err.println("Spot not found");
+            System.out.println("");
         }
     }
     

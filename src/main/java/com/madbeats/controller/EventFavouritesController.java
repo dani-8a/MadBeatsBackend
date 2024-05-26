@@ -130,7 +130,7 @@ public class EventFavouritesController {
     }
     
     @GetMapping("/{userId}/events/{eventId}/is_favourite")
-    public ResponseEntity<Boolean> isEventInFavourites(@PathVariable String userId, @PathVariable String eventId) {
+    public ResponseEntity<Boolean> isEventInFavourites(@PathVariable String userId, @PathVariable String eventId) {	
         Optional<DefaultUser> optionalUser = defaultUserRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
