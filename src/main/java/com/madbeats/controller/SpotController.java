@@ -54,7 +54,6 @@ public class SpotController {
     @GetMapping("/{spotId}/events_associated")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<SpotWithEventResponse> getSpotWithEvents(@PathVariable String spotId) {
-        // Buscar el spot por su ID
         Optional<Spot> spotOptional = spotRepository.findById(spotId);
         if (spotOptional.isPresent()) {
             Spot spot = spotOptional.get();
@@ -62,31 +61,25 @@ public class SpotController {
             // Obtener todos los eventos asociados a ese spot
             List<Event> events = eventRepository.findBySpot(spot);
             
-            // Imprimir información del spot
             System.out.println("Spot Information:");
             System.out.println("-----------------");
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
             System.out.println("Spot Address: " + spot.getAddressSpot());
             System.out.println("");
-            
-            // Imprimir información de los eventos asociados
             System.out.println("Events Associated with Spot:");
             System.out.println("----------------------------");
             for (Event event : events) {
                 System.out.println("Event ID: " + event.getIdEvent());
                 System.out.println("Event Name: " + event.getNameEvent());
                 System.out.println("");
-                // Imprime más información si lo deseas
-            }
-            
+            }  
             // Crear el objeto SpotWithEventResponse
             SpotWithEventResponse spotWithEventResponse = new SpotWithEventResponse(spot, events);
             
             // Devolver el objeto en la respuesta
             return ResponseEntity.ok(spotWithEventResponse);
         } else {
-            // Si el spot no se encuentra, devolver una respuesta de error 404
         	System.out.println("*** Spot not found ***");
             return ResponseEntity.notFound().build();
         }
@@ -105,8 +98,6 @@ public class SpotController {
         for (Event event : events) {
             uniqueSpots.add(event.getSpot());
         }
-        
-        // Imprimir la información de los spots
         System.out.println(uniqueSpots.size()+ " spots with events of music category: " + musicCategory);
         System.out.println("");
         for (Spot spot : uniqueSpots) {
@@ -114,8 +105,7 @@ public class SpotController {
             System.out.println("Spot Name: " + spot.getNameSpot());
             System.out.println("Spot Address: " + spot.getAddressSpot());
             System.out.println("");
-        }
-        
+        }        
         // Convertir el HashSet en una lista
         List<Spot> spots = new ArrayList<>(uniqueSpots);
         
@@ -126,7 +116,7 @@ public class SpotController {
     @GetMapping("/spotsByEventDate/{day}/{month}/{year}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Spot>> getSpotsByEventDate(@PathVariable int day, @PathVariable int month, @PathVariable int year) {
-        // Construir la fecha en el formato esperado por el repositorio de eventos
+        // Construir la fecha en el formato del repositorio de eventos
         String date = String.format("%02d/%02d/%04d", day, month, year);
     	
         // Obtener todos los eventos con la fecha proporcionada
@@ -139,8 +129,6 @@ public class SpotController {
         for (Event event : events) {
             uniqueSpots.add(event.getSpot());
         }
-        
-        // Imprimir la información de los spots
         System.out.println(uniqueSpots.size()+" spots with events on date: " + date);
         System.out.println("");
         for (Spot spot : uniqueSpots) {
@@ -184,10 +172,8 @@ public class SpotController {
     @PutMapping("/update_spot/{spotId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateSpot(@PathVariable String spotId, @RequestBody Spot updatedSpot) {
-        // Buscar el spot en la base de datos utilizando el ID
         Spot spot = spotRepository.findById(spotId).orElse(null);
 
-        // Verificar si el spot existe
         if (spot != null) {
             // Actualizar solo los campos proporcionados en la solicitud
         	if (updatedSpot.getIdSpot() != null) {
@@ -214,10 +200,8 @@ public class SpotController {
     @DeleteMapping("/delete_spot/{spotId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSpot(@PathVariable String spotId) {
-        // Buscar el spot en la base de datos utilizando el ID
         Spot spot = spotRepository.findById(spotId).orElse(null);
 
-        // Verificar si el spot existe
         if (spot != null) {
             // Eliminar el spot de la base de datos
             spotRepository.delete(spot);

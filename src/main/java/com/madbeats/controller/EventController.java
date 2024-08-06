@@ -54,35 +54,29 @@ public class EventController {
     @GetMapping("/event_info/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Event> getEventInfo(@PathVariable String eventId) {
-        // Buscar el evento por su ID
         Optional<Event> eventOptional = eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             // Obtener el evento
             Event event = eventOptional.get();
             
-            // Imprimir información del evento
             System.out.println("Event Information:");
             System.out.println("-----------------");
             System.out.println("Event ID: " + event.getIdEvent());
             System.out.println("Event Name: " + event.getNameEvent());
-            // Imprime más información del evento si lo deseas
             
             // Obtener el spot asociado al evento
             Spot spot = event.getSpot();
             
-            // Imprimir información del spot asociado
             System.out.println("");
             System.out.println("Spot Information:");
             System.out.println("-----------------");
             System.out.println("Spot ID: " + spot.getIdSpot());
             System.out.println("Spot Name: " + spot.getNameSpot());
             System.out.println("");
-            // Imprime más información del spot si lo deseas
             
             // Devolver el evento con la información del spot asociado
             return ResponseEntity.ok(event);
         } else {
-            // Si el evento no se encuentra, devolver una respuesta de error 404
             System.out.println("*** Event not found ***");
             return ResponseEntity.notFound().build();
         }
@@ -110,7 +104,6 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateEvent(@PathVariable String eventId, @RequestBody Event updatedEvent) {
         try {
-            // Buscar el evento en la base de datos utilizando el ID
             Event event = eventRepository.findById(eventId).orElse(null);
             // Verificar si el evento existe
             if (event != null) {
@@ -169,7 +162,6 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteEvent(@PathVariable String idEvent) {
         try {
-            // Buscar el evento en la base de datos utilizando el ID
             Event event = eventRepository.findById(idEvent).orElse(null);
 
             // Verificar si el evento existe

@@ -128,27 +128,5 @@ public class EventFavouritesController {
         System.out.println("Event deleted from favourites");
         return ResponseEntity.ok("Event deleted from favourites");
     }
-    
-    @GetMapping("/{userId}/events/{eventId}/is_favourite")
-    public ResponseEntity<Boolean> isEventInFavourites(@PathVariable String userId, @PathVariable String eventId) {	
-        Optional<DefaultUser> optionalUser = defaultUserRepository.findById(userId);
-
-        if (optionalUser.isEmpty()) {
-            System.out.println("User not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
-        }
-
-        DefaultUser user = optionalUser.get();
-        List<Event> favoriteEvents = user.getFavouritesEventList();
-
-        boolean isFavorite = favoriteEvents.stream().anyMatch(event -> event.getIdEvent().equals(eventId));
-        if (isFavorite) {
-            System.out.println("Event with ID " + eventId + " is a favorite for user with ID " + userId);
-        } else {
-            System.out.println("Event with ID " + eventId + " is not a favorite for user with ID " + userId);
-        }
-
-        return ResponseEntity.ok(isFavorite);
-    }
 
 }

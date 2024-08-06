@@ -2,11 +2,6 @@ package com.madbeats.entity;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class SpotWithEventResponse {
 
     private String idSpot;
