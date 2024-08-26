@@ -2,7 +2,7 @@
 
 ###
 
-<p align="left">The project is set to deploy the back-end in both local and cloud, depending on what the developer needs to do. For example to implement new features, troubleshooting or deploy new versions. API MadBeats is managed via Postman.</p>
+<p align="left">The project is set to deploy the back-end in both local and cloud, depending on what the developer needs to do. For example to implement new features, troubleshooting or deploy new versions (send to production). API MadBeats is managed via Postman.</p>
 
 ###
 
