@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout (Backend download == git clone)
+      - name: Checkout (Backend download = git clone)
         uses: actions/checkout@v4
 
       - name: Set up JDK 21 (Java installation)
